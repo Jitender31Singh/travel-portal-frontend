@@ -91,3 +91,9 @@ This document serves as a persistent project memory bank, development context tr
 - **Files Created / Modified**:
   - [.gitignore](file:///C:/Users/JitenderSingh/Downloads/travel-portal-ui/.gitignore): Created root Git exclusion rules covering `.env` files, `node_modules/`, Next.js build directories (`.next/`, `out/`), and debug logs.
 - **Status**: Complete Git exclusion configuration preventing accidental credential leaks across both root and subdirectory boundaries.
+
+### [2026-07-25] - Resolved PostCSS Build Failure for Vercel Deployment
+- **Action**: Fixed production build crashes (`npm run build`) caused by a missing `'postcss-nesting'` npm package reference in the PostCSS configuration during Next.js Webpack CSS optimization.
+- **Files Modified**:
+  - [project/postcss.config.js](file:///C:/Users/JitenderSingh/Downloads/travel-portal-ui/project/postcss.config.js): Replaced the uninstalled `'postcss-nesting'` plugin with `'tailwindcss/nesting'`. Because `tailwindcss/nesting` comes pre-bundled within the installed Tailwind CSS library, it resolves CSS nesting syntax (such as in Swiper UI module stylesheets) natively without requiring additional external dependency installations.
+- **Status / Verification**: Confirmed via local `npm run build` which succeeded with zero warnings and zero Webpack errors. Ready for clean Vercel deployment.
