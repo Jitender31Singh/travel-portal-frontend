@@ -97,3 +97,9 @@ This document serves as a persistent project memory bank, development context tr
 - **Files Modified**:
   - [project/postcss.config.js](file:///C:/Users/JitenderSingh/Downloads/travel-portal-ui/project/postcss.config.js): Replaced the uninstalled `'postcss-nesting'` plugin with `'tailwindcss/nesting'`. Because `tailwindcss/nesting` comes pre-bundled within the installed Tailwind CSS library, it resolves CSS nesting syntax (such as in Swiper UI module stylesheets) natively without requiring additional external dependency installations.
 - **Status / Verification**: Confirmed via local `npm run build` which succeeded with zero warnings and zero Webpack errors. Ready for clean Vercel deployment.
+
+### [2026-07-25] - Added Vercel Deployment Configuration (vercel.json)
+- **Action**: Resolved Vercel build error `No Output Directory named "public" found after the Build completed` occurring when Vercel defaults to static site presets instead of server-rendered Next.js builds.
+- **Files Created**:
+  - [project/vercel.json](file:///C:/Users/JitenderSingh/Downloads/travel-portal-ui/project/vercel.json): Created Vercel manifest containing `"framework": "nextjs"` to explicitly instruct the build pipeline to target Next.js server bundling (`.next` directory) without requiring manual Vercel dashboard overrides.
+- **Status**: Automated deployment preset identification for error-free hosting integration.
