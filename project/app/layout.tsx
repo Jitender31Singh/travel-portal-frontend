@@ -12,6 +12,14 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata = {
   title: 'GoonnexTrip — Explore India\'s Best Destinations & Treks',
   description: 'Book tour packages and treks across India with GoonnexTrip. Best prices, expert guides, safe travel.',
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+    },
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

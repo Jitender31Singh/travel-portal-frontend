@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Plus, Package, Search } from 'lucide-react';
 import { getPackagesApi, createPackage, updatePackage, getDestinationsApi } from '@/lib/api';
-import { TextField, TextArea, NumberField, SelectField, ArrayField, ImageUploadField } from '@/components/admin/Fields';
+import { TextField, TextArea, RichTextField, NumberField, SelectField, ArrayField, ImageUploadField } from '@/components/admin/Fields';
 import Modal from '@/components/admin/Modal';
 import { PageHeader, Badge, LoadingSpinner, ErrorState, EmptyState } from '@/components/admin/Common';
 import { toast } from '@/components/admin/Toast';
@@ -151,7 +151,7 @@ export default function AdminPackages() {
         </div>
       )}
 
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title={form.id ? "Edit Package" : "Add Package"} size="xl">
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title={form.id ? "Edit Package" : "Add Package"} size="2xl">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <TextField label="Title" value={form.title} onChange={handleTitleChange} required placeholder="e.g. Manali Holiday Package" />
@@ -163,7 +163,9 @@ export default function AdminPackages() {
             <SelectField label="Difficulty" value={form.difficulty} onChange={v => setForm(f => ({ ...f, difficulty: v }))} options={DIFFICULTIES} />
             <TextField label="Best Time to Visit" value={form.bestTimeToVisit} onChange={v => setForm(f => ({ ...f, bestTimeToVisit: v }))} placeholder="e.g. Oct–Jun" />
           </div>
-          <TextArea label="Overview" value={form.overview} onChange={v => setForm(f => ({ ...f, overview: v }))} rows={3} />
+          <div className="col-span-full mb-4">
+            <RichTextField label="Overview" value={form.overview} onChange={v => setForm(f => ({ ...f, overview: v }))} />
+          </div>
           <div className="grid grid-cols-4 gap-4">
             <NumberField label="Price (₹)" value={form.price} onChange={v => setForm(f => ({ ...f, price: v }))} />
             <NumberField label="Duration (Days)" value={form.durationDays} onChange={v => setForm(f => ({ ...f, durationDays: v }))} />
@@ -180,13 +182,15 @@ export default function AdminPackages() {
             <TextField label="Transport Included" value={form.transportIncluded} onChange={v => setForm(f => ({ ...f, transportIncluded: v }))} />
           </div>
           <ImageUploadField label="Cover Image URL" value={form.coverImage} onChange={v => setForm(f => ({ ...f, coverImage: v }))} />
-          <div className="grid grid-cols-3 gap-4">
+          <div className="space-y-6">
             <ArrayField label="Inclusions" value={form.inclusions} onChange={v => setForm(f => ({ ...f, inclusions: v }))} placeholder="e.g. Meals" />
             <ArrayField label="Exclusions" value={form.exclusions} onChange={v => setForm(f => ({ ...f, exclusions: v }))} placeholder="e.g. Flights" />
             <ArrayField label="Things to Carry" value={form.thingsToCarry} onChange={v => setForm(f => ({ ...f, thingsToCarry: v }))} placeholder="e.g. Warm clothes" />
           </div>
-          <TextArea label="Cancellation Policy" value={form.cancellationPolicy} onChange={v => setForm(f => ({ ...f, cancellationPolicy: v }))} rows={2} />
-          <TextArea label="Terms & Conditions" value={form.termsAndConditions} onChange={v => setForm(f => ({ ...f, termsAndConditions: v }))} rows={2} />
+          <div className="col-span-full space-y-4 mb-4">
+            <RichTextField label="Cancellation Policy" value={form.cancellationPolicy} onChange={v => setForm(f => ({ ...f, cancellationPolicy: v }))} />
+            <RichTextField label="Terms & Conditions" value={form.termsAndConditions} onChange={v => setForm(f => ({ ...f, termsAndConditions: v }))} />
+          </div>
           <div className="flex items-center gap-2">
             <input type="checkbox" id="pkg-customizable" checked={form.customizable} onChange={e => setForm(f => ({ ...f, customizable: e.target.checked }))} className="w-4 h-4 accent-[#0d9488]" />
             <label htmlFor="pkg-customizable" className="text-sm text-slate-600">Customizable</label>

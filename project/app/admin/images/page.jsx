@@ -1,7 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { Upload, Image as ImageIcon, Check, Link2 } from 'lucide-react';
-import { uploadImage, saveImage, getPackagesApi, getTreksApi, getDestinationsApi } from '@/lib/api';
+import { uploadImage, saveImage, deleteImage, getPackagesApi, getTreksApi, getDestinationsApi } from '@/lib/api';
+import { getGallery } from '@/lib/queries';
 import { TextField, NumberField, SelectField } from '@/components/admin/Fields';
 import { PageHeader, LoadingSpinner } from '@/components/admin/Common';
 import { toast } from '@/components/admin/Toast';
@@ -28,6 +29,13 @@ export default function AdminImages() {
   const [displayOrder, setDisplayOrder] = useState('');
   const [coverImage, setCoverImage] = useState(false);
   const [saving, setSaving] = useState(false);
+
+  // Gallery Management
+  const [viewRefType, setViewRefType] = useState('0');
+  const [viewParentId, setViewParentId] = useState('');
+  const [galleryImages, setGalleryImages] = useState([]);
+  const [loadingGallery, setLoadingGallery] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
 
   useEffect(() => {
     async function load() {
@@ -94,6 +102,46 @@ export default function AdminImages() {
       toast('Failed to save image', 'error');
     } finally {
       setSaving(false);
+    }
+  }
+
+  useEffect(() => {
+    if (!viewParentId) { setGalleryImages([]); return; }
+    setLoadingGallery(true);
+    getGallery(viewParentId, Number(viewRefType))
+      .then(data => setGalleryImages(data))
+      .catch(() => toast('Failed to load gallery', 'error'))
+      .finally(() => setLoadingGallery(false));
+  }, [viewParentId, viewRefType]);
+
+  async function handleDeleteImage(img) {
+    if (!confirm('Are you sure you want to delete this image from both the database and Cloudinary?')) return;
+    setDeletingId(img.id);
+    try {
+      // 1. Delete from backend DB
+      await deleteImage(img.id);
+      
+      // 2. Extract public_id and delete from Cloudinary
+      const url = img.imageUrl || img.image_url;
+      if (url && url.includes('cloudinary.com')) {
+        const uploadParts = url.split('/upload/');
+        if (uploadParts.length > 1) {
+          const withoutVersion = uploadParts[1].replace(/^v\d+\//, '');
+          const publicId = withoutVersion.substring(0, withoutVersion.lastIndexOf('.')) || withoutVersion;
+          
+          await fetch('/api/cloudinary/delete', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ publicId }),
+          });
+        }
+      }
+      toast('Image deleted successfully');
+      setGalleryImages(prev => prev.filter(i => i.id !== img.id));
+    } catch (error) {
+      toast('Failed to delete image', 'error');
+    } finally {
+      setDeletingId(null);
     }
   }
 
@@ -184,6 +232,41 @@ export default function AdminImages() {
             </button>
           </form>
         </div>
+      </div>
+
+      {/* Gallery Management Section */}
+      <div className="mt-8 bg-white rounded-2xl border border-slate-100 p-6">
+        <h2 className="text-lg font-bold text-[#0f2744] mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Manage Uploaded Images</h2>
+        <div className="grid sm:grid-cols-2 gap-4 max-w-lg mb-6">
+          <SelectField label="Reference Type" value={viewRefType} onChange={v => { setViewRefType(v); setViewParentId(''); }} options={REF_TYPES} />
+          <SelectField label="Parent Item" value={viewParentId} onChange={setViewParentId}
+            options={getRefOptions(viewRefType)} placeholder="Select item to view images" />
+        </div>
+
+        {loadingGallery ? (
+          <LoadingSpinner />
+        ) : !viewParentId ? (
+          <div className="text-center py-10 text-slate-500">Select an item above to view its images.</div>
+        ) : galleryImages.length === 0 ? (
+          <div className="text-center py-10 text-slate-500">No images found for this item.</div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            {galleryImages.map(img => (
+              <div key={img.id} className="relative group rounded-xl overflow-hidden border border-slate-200">
+                <img src={img.imageUrl || img.image_url} alt="Gallery" className="w-full h-32 object-cover" />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <button 
+                    onClick={() => handleDeleteImage(img)}
+                    disabled={deletingId === img.id}
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold disabled:opacity-50"
+                  >
+                    {deletingId === img.id ? 'Deleting...' : 'Delete'}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

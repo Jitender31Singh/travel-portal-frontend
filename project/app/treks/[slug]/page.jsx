@@ -133,7 +133,11 @@ export default function TrekDetailPage() {
           {/* Overview */}
           <div>
             <h2 className="text-2xl font-bold text-[#0f2744] mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>About This Trek</h2>
-            <p className="text-slate-600 leading-relaxed">{trek.overview || 'No description available.'}</p>
+            {trek.overview ? (
+              <div className="text-slate-600 leading-relaxed prose max-w-none" dangerouslySetInnerHTML={{ __html: trek.overview }} />
+            ) : (
+              <p className="text-slate-600 leading-relaxed">No description available.</p>
+            )}
           </div>
 
           {/* Inclusions & Exclusions */}
@@ -187,7 +191,7 @@ export default function TrekDetailPage() {
                       </div>
                       <div className="pb-6 flex-1 bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
                         <h4 className="font-semibold text-[#0f2744] text-base mb-2">{day.title}</h4>
-                        {day.description && <p className="text-sm text-slate-600 leading-relaxed mb-3">{day.description}</p>}
+                        {day.description && <div className="text-sm text-slate-600 leading-relaxed mb-3 prose max-w-none" dangerouslySetInnerHTML={{ __html: day.description }} />}
                         <div className="flex flex-wrap gap-2 text-xs font-medium mt-2">
                           {day.meals && <span className="bg-amber-50 text-amber-800 px-2.5 py-1 rounded-full flex items-center gap-1">🍴 {day.meals}</span>}
                           {(day.travelMode || day.travel_mode) && <span className="bg-blue-50 text-blue-800 px-2.5 py-1 rounded-full flex items-center gap-1">🚗 {day.travelMode || day.travel_mode}</span>}

@@ -12,7 +12,7 @@ export default function Modal({ open, onClose, title, children, size = 'lg' }) {
 
   if (!open) return null;
 
-  const maxW = size === 'xl' ? 'max-w-3xl' : size === 'lg' ? 'max-w-2xl' : 'max-w-md';
+  const maxW = size === '2xl' ? 'max-w-6xl' : size === 'xl' ? 'max-w-3xl' : size === 'lg' ? 'max-w-2xl' : 'max-w-md';
 
   return (
     <div className="fixed inset-0 z-[200] flex items-start justify-center p-4 bg-black/50 backdrop-blur-sm overflow-y-auto"

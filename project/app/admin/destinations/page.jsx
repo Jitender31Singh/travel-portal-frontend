@@ -4,7 +4,7 @@ import { Plus, Pencil, Trash2, MapPin, Search } from 'lucide-react';
 import {
   getDestinationsApi, createDestination, updateDestination, deleteDestination
 } from '@/lib/api';
-import { TextField, TextArea, ImageUploadField } from '@/components/admin/Fields';
+import { TextField, TextArea, RichTextField, ImageUploadField } from '@/components/admin/Fields';
 import Modal from '@/components/admin/Modal';
 import { PageHeader, Badge, LoadingSpinner, ErrorState, EmptyState } from '@/components/admin/Common';
 import { toast } from '@/components/admin/Toast';
@@ -180,7 +180,9 @@ export default function AdminDestinations() {
             <TextField label="Slug" value={form.slug} onChange={v => setForm(f => ({ ...f, slug: v }))} required placeholder="e.g. manali" />
           </div>
           <TextField label="Short Description" value={form.shortDescription} onChange={v => setForm(f => ({ ...f, shortDescription: v }))} placeholder="Brief tagline" />
-          <TextArea label="Description" value={form.description} onChange={v => setForm(f => ({ ...f, description: v }))} rows={4} placeholder="Full description" />
+          <div className="col-span-full mb-4">
+            <RichTextField label="Description" value={form.description} onChange={v => setForm(f => ({ ...f, description: v }))} />
+          </div>
           <ImageUploadField label="Hero Image URL" value={form.heroImage} onChange={v => setForm(f => ({ ...f, heroImage: v }))} />
           <div className="flex gap-3 pt-2">
             <button type="button" onClick={() => setModalOpen(false)}

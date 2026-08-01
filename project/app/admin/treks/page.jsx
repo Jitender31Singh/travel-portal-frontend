@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Plus, Mountain, Search } from 'lucide-react';
 import { getTreksApi, createTrek, updateTrek, getDestinationsApi } from '@/lib/api';
-import { TextField, TextArea, NumberField, SelectField, ArrayField, ImageUploadField } from '@/components/admin/Fields';
+import { TextField, TextArea, RichTextField, NumberField, SelectField, ArrayField, ImageUploadField } from '@/components/admin/Fields';
 import Modal from '@/components/admin/Modal';
 import { PageHeader, Badge, LoadingSpinner, ErrorState, EmptyState } from '@/components/admin/Common';
 import { toast } from '@/components/admin/Toast';
@@ -152,7 +152,7 @@ export default function AdminTreks() {
         </div>
       )}
 
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title={form.id ? "Edit Trek" : "Add Trek"} size="xl">
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title={form.id ? "Edit Trek" : "Add Trek"} size="2xl">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <TextField label="Title" value={form.title} onChange={handleTitleChange} required placeholder="e.g. Hampta Pass Trek" />
@@ -164,7 +164,9 @@ export default function AdminTreks() {
             <TextField label="Region" value={form.region} onChange={v => setForm(f => ({ ...f, region: v }))} placeholder="e.g. Himachal" />
             <SelectField label="Difficulty" value={form.difficulty} onChange={v => setForm(f => ({ ...f, difficulty: v }))} options={DIFFICULTIES} />
           </div>
-          <TextArea label="Overview" value={form.overview} onChange={v => setForm(f => ({ ...f, overview: v }))} rows={3} />
+          <div className="col-span-full mb-4">
+            <RichTextField label="Overview" value={form.overview} onChange={v => setForm(f => ({ ...f, overview: v }))} />
+          </div>
           <div className="grid grid-cols-4 gap-4">
             <NumberField label="Duration (Days)" value={form.durationDays} onChange={v => setForm(f => ({ ...f, durationDays: v }))} />
             <NumberField label="Nights" value={form.durationNights} onChange={v => setForm(f => ({ ...f, durationNights: v }))} />
@@ -195,12 +197,14 @@ export default function AdminTreks() {
             <TextField label="Longitude" value={form.longitude} onChange={v => setForm(f => ({ ...f, longitude: v }))} step="0.000001" />
           </div>
           <ImageUploadField label="Cover Image URL" value={form.coverImage} onChange={v => setForm(f => ({ ...f, coverImage: v }))} />
-          <TextArea label="Cancellation Policy" value={form.cancellationPolicy} onChange={v => setForm(f => ({ ...f, cancellationPolicy: v }))} rows={2} />
+          <div className="col-span-full mb-4">
+            <RichTextField label="Cancellation Policy" value={form.cancellationPolicy} onChange={v => setForm(f => ({ ...f, cancellationPolicy: v }))} />
+          </div>
           <div className="grid grid-cols-2 gap-4">
             <ArrayField label="Best Months" value={form.bestMonths} onChange={v => setForm(f => ({ ...f, bestMonths: v }))} placeholder="e.g. May" />
             <ArrayField label="Highlights" value={form.highlights} onChange={v => setForm(f => ({ ...f, highlights: v }))} placeholder="e.g. Scenic views" />
           </div>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="space-y-6">
             <ArrayField label="Inclusions" value={form.inclusions} onChange={v => setForm(f => ({ ...f, inclusions: v }))} placeholder="e.g. Meals" />
             <ArrayField label="Exclusions" value={form.exclusions} onChange={v => setForm(f => ({ ...f, exclusions: v }))} placeholder="e.g. Flights" />
             <ArrayField label="Things to Carry" value={form.thingsToCarry} onChange={v => setForm(f => ({ ...f, thingsToCarry: v }))} placeholder="e.g. Trekking poles" />

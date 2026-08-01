@@ -1,4 +1,5 @@
 const BASE = 'https://travel-portal-backend-17lc.onrender.com';
+// const BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
 
 function getToken() {
   if (typeof window === 'undefined') return null;
@@ -207,5 +208,9 @@ export async function saveImage(body) {
     method: 'POST',
     body: JSON.stringify(body),
   });
+}
+
+export async function deleteImage(id) {
+  return request(`/api/admin/images/${id}`, { method: 'DELETE' });
 }
     

@@ -2,6 +2,10 @@ import { useState } from 'react';
 import { Upload, Image as ImageIcon, Loader2 } from 'lucide-react';
 import { uploadImage } from '@/lib/api';
 import { toast } from '@/components/admin/Toast';
+import dynamic from 'next/dynamic';
+import 'react-quill/dist/quill.snow.css';
+
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 export function TextField({ label, value, onChange, placeholder, type = 'text', required, ...rest }) {
   return (
@@ -32,6 +36,32 @@ export function TextArea({ label, value, onChange, placeholder, rows = 3, requir
         required={required}
         className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0d9488] focus:border-transparent resize-none"
       />
+    </div>
+  );
+}
+
+export function RichTextField({ label, value, onChange, placeholder, required }) {
+  return (
+    <div>
+      <label className="block text-xs font-semibold text-slate-600 mb-1.5">{label}{required && <span className="text-red-500"> *</span>}</label>
+      <div className="bg-white rounded-lg overflow-hidden border border-slate-200">
+        <ReactQuill 
+          theme="snow" 
+          value={value ?? ''} 
+          onChange={onChange} 
+          placeholder={placeholder}
+          modules={{
+            toolbar: [
+              [{ 'header': [1, 2, 3, false] }],
+              ['bold', 'italic', 'underline', 'strike'],
+              ['link'],
+              [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+              ['clean']
+            ],
+          }}
+          className="rich-text-editor"
+        />
+      </div>
     </div>
   );
 }
@@ -86,23 +116,23 @@ export function ArrayField({ label, value, onChange, placeholder }) {
   return (
     <div>
       <label className="block text-xs font-semibold text-slate-600 mb-1.5">{label}</label>
-      <div className="space-y-2">
+      <div className="space-y-3">
         {value.map((item, i) => (
-          <div key={i} className="flex gap-2">
+          <div key={i} className="flex gap-3">
             <input
               value={item}
               onChange={e => update(i, e.target.value)}
               placeholder={placeholder}
-              className="flex-1 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0d9488] focus:border-transparent"
+              className="flex-1 w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0d9488] focus:border-transparent"
             />
             <button type="button" onClick={() => remove(i)}
-              className="px-3 border border-slate-200 rounded-lg text-slate-400 hover:text-red-500 hover:border-red-200 transition-colors text-sm">
+              className="px-4 py-2 border border-slate-200 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 hover:border-red-200 transition-colors text-sm font-medium whitespace-nowrap flex-shrink-0">
               Remove
             </button>
           </div>
         ))}
         <button type="button" onClick={add}
-          className="text-sm text-[#0d9488] hover:text-[#0a7a70] font-medium">
+          className="inline-flex items-center text-sm text-[#0d9488] hover:text-[#0a7a70] font-semibold mt-1">
           + Add item
         </button>
       </div>

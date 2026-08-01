@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Plus, CalendarDays, Trash2, Pencil } from 'lucide-react';
 import { getPackagesApi, getTreksApi, getItineraryApi, createItinerary, updateItinerary, deleteItinerary } from '@/lib/api';
-import { TextField, TextArea, NumberField, SelectField, ArrayField } from '@/components/admin/Fields';
+import { TextField, TextArea, RichTextField, NumberField, SelectField, ArrayField } from '@/components/admin/Fields';
 import Modal from '@/components/admin/Modal';
 import { PageHeader, Badge, LoadingSpinner, ErrorState, EmptyState } from '@/components/admin/Common';
 import { toast } from '@/components/admin/Toast';
@@ -226,7 +226,9 @@ export default function AdminItinerary() {
             <NumberField label="Day Number" value={form.dayNumber} onChange={v => setForm(f => ({ ...f, dayNumber: v }))} required />
           </div>
           <TextField label="Title" value={form.title} onChange={v => setForm(f => ({ ...f, title: v }))} required placeholder="e.g. Arrival in Manali" />
-          <TextArea label="Description" value={form.description} onChange={v => setForm(f => ({ ...f, description: v }))} rows={3} />
+          <div className="col-span-full mb-4">
+            <RichTextField label="Description" value={form.description} onChange={v => setForm(f => ({ ...f, description: v }))} />
+          </div>
           <div className="grid grid-cols-2 gap-4">
             <TextField label="Stay" value={form.stay} onChange={v => setForm(f => ({ ...f, stay: v }))} placeholder="e.g. Hotel in Manali" />
             <TextField label="Meals" value={form.meals} onChange={v => setForm(f => ({ ...f, meals: v }))} placeholder="e.g. Breakfast & Dinner" />

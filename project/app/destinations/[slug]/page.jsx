@@ -134,7 +134,7 @@ export default function DestinationPage() {
                 {[...Array(4)].map((_, i) => <div key={i} className="skeleton h-4 rounded" />)}
               </div>
             ) : (
-              <p className="text-slate-600 leading-relaxed">{dest?.description}</p>
+              <div className="text-slate-600 leading-relaxed prose max-w-none" dangerouslySetInnerHTML={{ __html: dest?.description || '' }} />
             )}
           </div>
           <div className="bg-white rounded-2xl shadow-md border border-slate-100 p-6">
