@@ -277,10 +277,10 @@ export default function TrekDetailPage() {
               <div className="space-y-2.5">
                 {[
                   ['Difficulty', trek.difficulty],
-                  ['Duration', trek.duration_days ? `${trek.duration_days} Days` : null],
-                  ['Distance', trek.distance_km ? `${trek.distance_km} km` : null],
-                  ['Max Altitude', trek.max_altitude ? `${trek.max_altitude.toLocaleString()} ft` : null],
-                  ['Best Time', trek.best_time],
+                  ['Duration', trek.durationDays ? `${trek.durationDays} Days` : null],
+                  ['Distance', trek.distanceKm ? `${trek.distanceKm} km` : null],
+                  ['Max Altitude', trek.maxAltitude ? `${trek.maxAltitude.toLocaleString()} ft` : null],
+                  ['Best Months', trek.bestMonths ? trek.bestMonths.join(', ') : null],
                 ].filter(([, v]) => v).map(([label, value]) => (
                   <div key={label} className="flex justify-between text-sm border-b border-slate-50 pb-2.5">
                     <span className="text-slate-400">{label}</span>
