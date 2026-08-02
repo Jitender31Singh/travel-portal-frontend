@@ -16,7 +16,7 @@ export default function TrekCard({ trek }) {
     <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col">
       <div className="relative h-52 overflow-hidden">
         <img
-          src={trek.coverImage || trek.cover_image || 'https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&q=80'}
+          src={trek.coverImage || 'https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&q=80'}
           alt={trek.title}
           className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
           onError={e => { e.target.src = 'https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&q=80'; }}
@@ -29,12 +29,12 @@ export default function TrekCard({ trek }) {
         <h3 className="font-semibold text-[#0f2744] text-base leading-snug mb-3"
           style={{ fontFamily: "'Playfair Display', serif" }}>{trek.title}</h3>
         <div className="flex flex-wrap gap-3 text-xs text-slate-500 mb-4">
-          <span className="flex items-center gap-1"><Calendar size={12} /> {trek.duration_days} Days</span>
-          {trek.distance_km && <span className="flex items-center gap-1"><Map size={12} /> {trek.distance_km} km</span>}
-          {trek.max_altitude && <span className="flex items-center gap-1"><Mountain size={12} /> {trek.max_altitude.toLocaleString()} ft</span>}
+          <span className="flex items-center gap-1"><Calendar size={12} /> {trek.durationDays} Days</span>
+          {trek.distanceKm && <span className="flex items-center gap-1"><Map size={12} /> {trek.distanceKm} km</span>}
+          {trek.maxAltitude && <span className="flex items-center gap-1"><Mountain size={12} /> {trek.maxAltitude.toLocaleString()} ft</span>}
         </div>
-        {trek.best_time && (
-          <p className="text-xs text-slate-400 mb-4">Best time: {trek.best_time}</p>
+        {trek.bestMonths && (
+          <p className="text-xs text-slate-400 mb-4">Best Months: {trek.bestMonths.join(', ')}</p>
         )}
         <div className="mt-auto flex items-center justify-between pt-4 border-t border-slate-100">
           <div>
