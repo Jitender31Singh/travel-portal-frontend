@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Plus, Package, Search } from 'lucide-react';
 import { getPackagesApi, createPackage, updatePackage, getDestinationsApi } from '@/lib/api';
-import { TextField, TextArea, RichTextField, NumberField, SelectField, ArrayField, ImageUploadField } from '@/components/admin/Fields';
+import { TextField, TextArea, RichTextField, NumberField, SelectField, ArrayField, RichTextArrayField, ImageUploadField } from '@/components/admin/Fields';
 import Modal from '@/components/admin/Modal';
 import { PageHeader, Badge, LoadingSpinner, ErrorState, EmptyState } from '@/components/admin/Common';
 import { toast } from '@/components/admin/Toast';
@@ -73,6 +73,8 @@ export default function AdminPackages() {
         durationNights: form.durationNights ? Number(form.durationNights) : null,
         maxGroupSize: form.maxGroupSize ? Number(form.maxGroupSize) : null,
         minAge: form.minAge ? Number(form.minAge) : null,
+        inclusions: Array.isArray(form.inclusions) ? form.inclusions : form.inclusions ? [form.inclusions] : [],
+        exclusions: Array.isArray(form.exclusions) ? form.exclusions : form.exclusions ? [form.exclusions] : [],
       };
       if (form.id) {
         await updatePackage(form.id, payload);
@@ -183,8 +185,8 @@ export default function AdminPackages() {
           </div>
           <ImageUploadField label="Cover Image URL" value={form.coverImage} onChange={v => setForm(f => ({ ...f, coverImage: v }))} />
           <div className="space-y-6">
-            <ArrayField label="Inclusions" value={form.inclusions} onChange={v => setForm(f => ({ ...f, inclusions: v }))} placeholder="e.g. Meals" />
-            <ArrayField label="Exclusions" value={form.exclusions} onChange={v => setForm(f => ({ ...f, exclusions: v }))} placeholder="e.g. Flights" />
+            <RichTextArrayField label="Inclusions" value={Array.isArray(form.inclusions) ? form.inclusions : [form.inclusions]} onChange={v => setForm(f => ({ ...f, inclusions: v }))} />
+            <RichTextArrayField label="Exclusions" value={Array.isArray(form.exclusions) ? form.exclusions : [form.exclusions]} onChange={v => setForm(f => ({ ...f, exclusions: v }))} />
             <ArrayField label="Things to Carry" value={form.thingsToCarry} onChange={v => setForm(f => ({ ...f, thingsToCarry: v }))} placeholder="e.g. Warm clothes" />
           </div>
           <div className="col-span-full space-y-4 mb-4">

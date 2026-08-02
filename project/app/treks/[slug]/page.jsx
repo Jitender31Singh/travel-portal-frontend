@@ -6,6 +6,7 @@ import { ChevronDown, CheckCircle, XCircle, Calendar, Map, Mountain, Clock } fro
 import ReviewCard from '@/components/ReviewCard';
 import ReviewCarousel from '@/components/ReviewCarousel';
 import ImageCarousel from '@/components/ImageCarousel';
+import Expandable from '@/components/Expandable';
 import { useEnquiry } from '@/components/EnquiryContext';
 import { getTrekBySlug, getFaqs, getReviews, submitReview, getGallery, getItinerary, REF_TYPE } from '@/lib/queries';
 
@@ -134,7 +135,9 @@ export default function TrekDetailPage() {
           <div>
             <h2 className="text-2xl font-bold text-[#0f2744] mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>About This Trek</h2>
             {trek.overview ? (
-              <div className="text-slate-600 leading-relaxed prose max-w-none" dangerouslySetInnerHTML={{ __html: trek.overview }} />
+              <Expandable maxHeight={250}>
+                <div className="text-slate-600 leading-relaxed prose max-w-none" dangerouslySetInnerHTML={{ __html: trek.overview }} />
+              </Expandable>
             ) : (
               <p className="text-slate-600 leading-relaxed">No description available.</p>
             )}
@@ -144,32 +147,46 @@ export default function TrekDetailPage() {
           {(trek.inclusions?.length > 0 || trek.exclusions?.length > 0) && (
             <div>
               <h2 className="text-2xl font-bold text-[#0f2744] mb-5" style={{ fontFamily: "'Playfair Display', serif" }}>Inclusions & Exclusions</h2>
-              <div className="grid sm:grid-cols-2 gap-5">
-                {trek.inclusions?.length > 0 && (
-                  <div className="bg-green-50 rounded-2xl p-5">
-                    <h4 className="font-semibold text-green-800 mb-3 text-sm uppercase tracking-wide">Included</h4>
-                    <ul className="space-y-2">
-                      {trek.inclusions.map((item, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-green-700">
-                          <CheckCircle size={15} className="flex-shrink-0 mt-0.5" /><span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {trek.exclusions?.length > 0 && (
-                  <div className="bg-red-50 rounded-2xl p-5">
-                    <h4 className="font-semibold text-red-800 mb-3 text-sm uppercase tracking-wide">Excluded</h4>
-                    <ul className="space-y-2">
-                      {trek.exclusions.map((item, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-red-700">
-                          <XCircle size={15} className="flex-shrink-0 mt-0.5" /><span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
+              <Expandable maxHeight={350}>
+                <div className="grid sm:grid-cols-2 gap-5">
+                  {trek.inclusions?.length > 0 && (
+                    <div className="bg-green-50 rounded-2xl p-5">
+                      <h4 className="font-semibold text-green-800 mb-3 text-sm uppercase tracking-wide">Included</h4>
+                      <ul className="space-y-3">
+                        {trek.inclusions.map((item, i) => (
+                          <li key={i} className="flex items-start gap-3 text-sm text-green-800">
+                            <CheckCircle size={16} className="flex-shrink-0 mt-0.5 text-green-700" />
+                            <div className="prose prose-sm prose-p:my-0 prose-ul:my-0 prose-li:my-0 max-w-none flex-1" dangerouslySetInnerHTML={{ __html: item }} />
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {trek.exclusions?.length > 0 && (
+                    <div className="bg-red-50 rounded-2xl p-5">
+                      <h4 className="font-semibold text-red-800 mb-3 text-sm uppercase tracking-wide">Excluded</h4>
+                      <ul className="space-y-3">
+                        {trek.exclusions.map((item, i) => (
+                          <li key={i} className="flex items-start gap-3 text-sm text-red-800">
+                            <XCircle size={16} className="flex-shrink-0 mt-0.5 text-red-700" />
+                            <div className="prose prose-sm prose-p:my-0 prose-ul:my-0 prose-li:my-0 max-w-none flex-1" dangerouslySetInnerHTML={{ __html: item }} />
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </Expandable>
+            </div>
+          )}
+
+          {/* Cancellation Policy */}
+          {trek.cancellationPolicy && (
+            <div>
+              <h2 className="text-2xl font-bold text-[#0f2744] mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Cancellation Policy</h2>
+              <Expandable maxHeight={200}>
+                <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100 text-sm text-slate-700 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: trek.cancellationPolicy }} />
+              </Expandable>
             </div>
           )}
 
@@ -243,10 +260,10 @@ export default function TrekDetailPage() {
                 ₹{Number(trek.price).toLocaleString('en-IN')}
               </div>
               <p className="text-xs text-slate-400 mb-5">/person</p>
-              <button onClick={() => openModal(trek.title)}
+              {/* <button onClick={() => openModal(trek.title)}
                 className="w-full bg-[#d97706] hover:bg-[#b45309] text-white font-semibold py-3 rounded-xl transition-colors mb-3">
                 Book Now
-              </button>
+              </button> */}
               <button onClick={() => openModal(trek.title)}
                 className="w-full border border-[#0f2744] text-[#0f2744] hover:bg-[#0f2744] hover:text-white font-semibold py-3 rounded-xl transition-colors">
                 Enquire

@@ -140,6 +140,53 @@ export function ArrayField({ label, value, onChange, placeholder }) {
   );
 }
 
+export function RichTextArrayField({ label, value, onChange, placeholder }) {
+  function update(idx, val) {
+    const next = [...value];
+    next[idx] = val;
+    onChange(next);
+  }
+  function add() { onChange([...value, '']); }
+  function remove(idx) { onChange(value.filter((_, i) => i !== idx)); }
+
+  return (
+    <div>
+      <label className="block text-xs font-semibold text-slate-600 mb-1.5">{label}</label>
+      <div className="space-y-4">
+        {value.map((item, i) => (
+          <div key={i} className="flex gap-3">
+            <div className="flex-1 bg-white rounded-lg overflow-hidden border border-slate-200">
+              <ReactQuill 
+                theme="snow" 
+                value={item ?? ''} 
+                onChange={v => update(i, v)} 
+                placeholder={placeholder}
+                modules={{
+                  toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],
+                    ['link'],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    ['clean']
+                  ],
+                }}
+                className="rich-text-editor"
+              />
+            </div>
+            <button type="button" onClick={() => remove(i)}
+              className="px-4 py-2 border border-slate-200 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 hover:border-red-200 transition-colors text-sm font-medium whitespace-nowrap flex-shrink-0 self-start mt-2">
+              Remove
+            </button>
+          </div>
+        ))}
+        <button type="button" onClick={add}
+          className="inline-flex items-center text-sm text-[#0d9488] hover:text-[#0a7a70] font-semibold mt-1">
+          + Add item
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export function ImageUploadField({ label, value, onChange, required }) {
   const [uploading, setUploading] = useState(false);
 

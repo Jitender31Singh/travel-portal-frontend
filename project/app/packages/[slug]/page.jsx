@@ -7,6 +7,7 @@ import ReviewCard from '@/components/ReviewCard';
 import ReviewCarousel from '@/components/ReviewCarousel';
 import StarRating from '@/components/StarRating';
 import ImageCarousel from '@/components/ImageCarousel';
+import Expandable from '@/components/Expandable';
 import { useEnquiry } from '@/components/EnquiryContext';
 import {
   getPackageBySlug, getItinerary, getFaqs, getReviews, submitReview, getGallery, REF_TYPE
@@ -135,7 +136,9 @@ export default function PackageDetailPage() {
           {/* Overview */}
           <div>
             <h2 className="text-2xl font-bold text-[#0f2744] mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Overview</h2>
-            <div className="text-slate-600 leading-relaxed prose max-w-none" dangerouslySetInnerHTML={{ __html: pkg.overview }} />
+            <Expandable maxHeight={250}>
+              <div className="text-slate-600 leading-relaxed prose max-w-none" dangerouslySetInnerHTML={{ __html: pkg.overview }} />
+            </Expandable>
             <div className="grid sm:grid-cols-2 gap-4 mt-6">
               {[
                 ['Pickup', pkg.pickupPoint],
@@ -143,7 +146,6 @@ export default function PackageDetailPage() {
                 ['Accommodation', pkg.accommodationType],
                 ['Best Time', pkg.bestTimeToVisit],
                 ['Transport', pkg.transportIncluded],
-                ['Cancellation', pkg.cancellationPolicy],
               ].filter(([, v]) => v).map(([label, value]) => (
                 <div key={label} className="bg-slate-50 rounded-xl p-4">
                   <p className="text-xs text-slate-400 uppercase tracking-wide mb-0.5">{label}</p>
@@ -157,34 +159,56 @@ export default function PackageDetailPage() {
           {(pkg.inclusions?.length > 0 || pkg.exclusions?.length > 0) && (
             <div>
               <h2 className="text-2xl font-bold text-[#0f2744] mb-5" style={{ fontFamily: "'Playfair Display', serif" }}>Inclusions & Exclusions</h2>
-              <div className="grid sm:grid-cols-2 gap-5">
-                {pkg.inclusions?.length > 0 && (
-                  <div className="bg-green-50 rounded-2xl p-5">
-                    <h4 className="font-semibold text-green-800 mb-3 text-sm uppercase tracking-wide">Included</h4>
-                    <ul className="space-y-2">
-                      {pkg.inclusions.map((item, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-green-700">
-                          <CheckCircle size={15} className="flex-shrink-0 mt-0.5" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {pkg.exclusions?.length > 0 && (
-                  <div className="bg-red-50 rounded-2xl p-5">
-                    <h4 className="font-semibold text-red-800 mb-3 text-sm uppercase tracking-wide">Excluded</h4>
-                    <ul className="space-y-2">
-                      {pkg.exclusions.map((item, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-red-700">
-                          <XCircle size={15} className="flex-shrink-0 mt-0.5" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
+              <Expandable maxHeight={350}>
+                <div className="grid sm:grid-cols-2 gap-5">
+                  {pkg.inclusions?.length > 0 && (
+                    <div className="bg-green-50 rounded-2xl p-5">
+                      <h4 className="font-semibold text-green-800 mb-3 text-sm uppercase tracking-wide">Included</h4>
+                      <ul className="space-y-3">
+                        {pkg.inclusions.map((item, i) => (
+                          <li key={i} className="flex items-start gap-3 text-sm text-green-800">
+                            <CheckCircle size={16} className="flex-shrink-0 mt-0.5 text-green-700" />
+                            <div className="prose prose-sm prose-p:my-0 prose-ul:my-0 prose-li:my-0 max-w-none flex-1" dangerouslySetInnerHTML={{ __html: item }} />
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {pkg.exclusions?.length > 0 && (
+                    <div className="bg-red-50 rounded-2xl p-5">
+                      <h4 className="font-semibold text-red-800 mb-3 text-sm uppercase tracking-wide">Excluded</h4>
+                      <ul className="space-y-3">
+                        {pkg.exclusions.map((item, i) => (
+                          <li key={i} className="flex items-start gap-3 text-sm text-red-800">
+                            <XCircle size={16} className="flex-shrink-0 mt-0.5 text-red-700" />
+                            <div className="prose prose-sm prose-p:my-0 prose-ul:my-0 prose-li:my-0 max-w-none flex-1" dangerouslySetInnerHTML={{ __html: item }} />
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </Expandable>
+            </div>
+          )}
+
+          {/* Cancellation Policy */}
+          {pkg.cancellationPolicy && (
+            <div>
+              <h2 className="text-2xl font-bold text-[#0f2744] mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Cancellation Policy</h2>
+              <Expandable maxHeight={200}>
+                <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100 text-sm text-slate-700 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: pkg.cancellationPolicy }} />
+              </Expandable>
+            </div>
+          )}
+
+          {/* Terms & Conditions */}
+          {pkg.termsAndConditions && (
+            <div>
+              <h2 className="text-2xl font-bold text-[#0f2744] mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Terms & Conditions</h2>
+              <Expandable maxHeight={200}>
+                <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100 text-sm text-slate-700 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: pkg.termsAndConditions }} />
+              </Expandable>
             </div>
           )}
 
@@ -275,10 +299,10 @@ export default function PackageDetailPage() {
                 ₹{Number(pkg.price).toLocaleString('en-IN')}
               </div>
               <p className="text-xs text-slate-400 mb-5">/person</p>
-              <button onClick={() => openModal(pkg.title)}
+              {/* <button onClick={() => openModal(pkg.title)}
                 className="w-full bg-[#d97706] hover:bg-[#b45309] text-white font-semibold py-3 rounded-xl transition-colors mb-3">
                 Book Now
-              </button>
+              </button> */}
               <button onClick={() => openModal(pkg.title)}
                 className="w-full border border-[#0f2744] text-[#0f2744] hover:bg-[#0f2744] hover:text-white font-semibold py-3 rounded-xl transition-colors">
                 Enquire Now

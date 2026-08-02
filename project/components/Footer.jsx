@@ -24,8 +24,12 @@ export default function Footer() {
               Your trusted travel partner for unforgettable treks and thrilling adventures across India.
             </p>
             <div className="flex gap-3">
-              {[Facebook, Instagram, Youtube].map((Icon, i) => (
-                <a key={i} href="#"
+              {[
+                { Icon: Facebook, url: process.env.NEXT_PUBLIC_FACEBOOK_URL || '#' },
+                { Icon: Instagram, url: process.env.NEXT_PUBLIC_INSTAGRAM_URL || '#' },
+                { Icon: Youtube, url: process.env.NEXT_PUBLIC_YOUTUBE_URL || '#' },
+              ].map(({ Icon, url }, i) => (
+                <a key={i} href={url} target={url !== '#' ? "_blank" : undefined} rel={url !== '#' ? "noopener noreferrer" : undefined}
                   className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#0d9488] flex items-center justify-center transition-colors">
                   <Icon size={15} />
                 </a>
@@ -65,15 +69,15 @@ export default function Footer() {
             <ul className="space-y-3 text-sm text-slate-400">
               <li className="flex gap-3 items-start">
                 <Phone size={15} className="text-[#0d9488] mt-0.5 flex-shrink-0" />
-                <span>+91 1234567890</span>
+                <span>{process.env.NEXT_PUBLIC_CONTACT_PHONE}</span>
               </li>
               <li className="flex gap-3 items-start">
                 <Mail size={15} className="text-[#0d9488] mt-0.5 flex-shrink-0" />
-                <span>info@goonnextrip.com</span>
+                <span>{process.env.NEXT_PUBLIC_CONTACT_EMAIL}</span>
               </li>
               <li className="flex gap-3 items-start">
                 <MapPin size={15} className="text-[#0d9488] mt-0.5 flex-shrink-0" />
-                <span>123, Travel Street, Dehradun, Uttarakhand 248001</span>
+                <span>{process.env.NEXT_PUBLIC_CONTACT_ADDRESS}</span>
               </li>
             </ul>
           </div>

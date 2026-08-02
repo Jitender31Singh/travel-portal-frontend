@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Plus, Mountain, Search } from 'lucide-react';
 import { getTreksApi, createTrek, updateTrek, getDestinationsApi } from '@/lib/api';
-import { TextField, TextArea, RichTextField, NumberField, SelectField, ArrayField, ImageUploadField } from '@/components/admin/Fields';
+import { TextField, TextArea, RichTextField, NumberField, SelectField, ArrayField, RichTextArrayField, ImageUploadField } from '@/components/admin/Fields';
 import Modal from '@/components/admin/Modal';
 import { PageHeader, Badge, LoadingSpinner, ErrorState, EmptyState } from '@/components/admin/Common';
 import { toast } from '@/components/admin/Toast';
@@ -79,6 +79,8 @@ export default function AdminTreks() {
         latitude: form.latitude ? Number(form.latitude) : null,
         longitude: form.longitude ? Number(form.longitude) : null,
         price: form.price ? Number(form.price) : null,
+        inclusions: Array.isArray(form.inclusions) ? form.inclusions : form.inclusions ? [form.inclusions] : [],
+        exclusions: Array.isArray(form.exclusions) ? form.exclusions : form.exclusions ? [form.exclusions] : [],
       };
       if (form.id) {
         await updateTrek(form.id, payload);
@@ -205,8 +207,8 @@ export default function AdminTreks() {
             <ArrayField label="Highlights" value={form.highlights} onChange={v => setForm(f => ({ ...f, highlights: v }))} placeholder="e.g. Scenic views" />
           </div>
           <div className="space-y-6">
-            <ArrayField label="Inclusions" value={form.inclusions} onChange={v => setForm(f => ({ ...f, inclusions: v }))} placeholder="e.g. Meals" />
-            <ArrayField label="Exclusions" value={form.exclusions} onChange={v => setForm(f => ({ ...f, exclusions: v }))} placeholder="e.g. Flights" />
+            <RichTextArrayField label="Inclusions" value={Array.isArray(form.inclusions) ? form.inclusions : [form.inclusions]} onChange={v => setForm(f => ({ ...f, inclusions: v }))} />
+            <RichTextArrayField label="Exclusions" value={Array.isArray(form.exclusions) ? form.exclusions : [form.exclusions]} onChange={v => setForm(f => ({ ...f, exclusions: v }))} />
             <ArrayField label="Things to Carry" value={form.thingsToCarry} onChange={v => setForm(f => ({ ...f, thingsToCarry: v }))} placeholder="e.g. Trekking poles" />
           </div>
           <div className="flex items-center gap-2">
