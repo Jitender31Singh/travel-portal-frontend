@@ -1,5 +1,5 @@
-// const BASE = 'https://travel-portal-backend-17lc.onrender.com';
-const BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
+const BASE = 'https://travel-portal-backend-17lc.onrender.com';
+// const BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
 
 function getToken() {
   if (typeof window === 'undefined') return null;
