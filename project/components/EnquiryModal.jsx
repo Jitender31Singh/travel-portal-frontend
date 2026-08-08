@@ -28,7 +28,7 @@ export default function EnquiryModal() {
       subject: form.subject || prefill,
       message: form.message,
       travelers: form.travelers,
-      travel_date: form.travelDate || null,
+      travelDate: form.travelDate || null,
     });
     setLoading(false);
     if (result) {

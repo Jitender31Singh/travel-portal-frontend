@@ -103,3 +103,25 @@ This document serves as a persistent project memory bank, development context tr
 - **Files Created**:
   - [project/vercel.json](file:///C:/Users/JitenderSingh/Downloads/travel-portal-ui/project/vercel.json): Created Vercel manifest containing `"framework": "nextjs"` to explicitly instruct the build pipeline to target Next.js server bundling (`.next` directory) without requiring manual Vercel dashboard overrides.
 - **Status**: Automated deployment preset identification for error-free hosting integration.
+
+### [2026-07-25] - Configured Global Search Engine No-Indexing & Crawl Disallow
+- **Action**: Prevented search engines and automated web crawlers from indexing or crawling any public website pages while in preview and development staging.
+- **Files Created / Modified**:
+  - [project/app/layout.tsx](file:///C:/Users/JitenderSingh/Downloads/travel-portal-ui/project/app/layout.tsx): Updated exported global Next.js application metadata to include `robots: { index: false, follow: false, googleBot: { index: false, follow: false } }`, which automatically emits `<meta name="robots" content="noindex, nofollow" />` across the HTML `<head>` of all pages.
+  - [project/app/robots.ts](file:///C:/Users/JitenderSingh/Downloads/travel-portal-ui/project/app/robots.ts): Created standard static route handler that publishes an authoritative site-wide `/robots.txt` disallowing all user-agent bot crawls (`User-agent: *`, `Disallow: /`).
+- **Status / Verification**: Tested with local production build (`npm run build`), confirming valid compilation of static `/robots.txt` route and global header tag integration.
+
+### [2026-07-28] - Documented Domain Data Hierarchy for Itineraries & Policies
+- **Action**: Formalized architecture and domain modeling instructions regarding multi-point lists within single Itineraries and Policies to ensure seamless future front-end and DTO synchronization.
+- **Files Modified**:
+  - [architecture.md](file:///C:/Users/JitenderSingh/Downloads/travel-portal-ui/architecture.md): Added Section 3.4 establishing that every individual Itinerary entity can encapsulate a list of sub-items/activities (`activities: List<String>`), and explicitly mandating that Policies (Cancellation, Terms, etc.) follow the exact same list-based structural pattern (a structured array/list of points or rules) rather than treating policies as unstructured single text strings.
+- **Status**: Recorded in persistent project architecture guidance and development memory.
+
+### [2026-08-01] - Fixed ArrayField Layout Stacking Issue in Admin Forms
+- **Action**: Resolved visual stacking and cramped display issue where Inclusions, Exclusions, and Things to Carry fields were overlapping in the admin Trek and Package edit forms. Changed from horizontal 3-column grid layout to vertical stacking for better readability and item separation.
+- **Files Modified**:
+  - [project/components/admin/Modal.jsx](file:///C:/Users/JitenderSingh/Downloads/travel-portal-ui/project/components/admin/Modal.jsx): Added support for `size="2xl"` option with `max-w-6xl` (1152px) to provide more horizontal space for complex forms with many array fields.
+  - [project/components/admin/Fields.jsx](file:///C:/Users/JitenderSingh/Downloads/travel-portal-ui/project/components/admin/Fields.jsx): Updated `ArrayField` component to increase spacing from `space-y-2` to `space-y-3`, added `flex flex-col` container, `items-start` alignment, `whitespace-nowrap` for Remove button, and `mt-2` for Add button spacing.
+  - [project/app/admin/treks/page.jsx](file:///C:/Users/JitenderSingh/Downloads/travel-portal-ui/project/app/admin/treks/page.jsx): Changed Modal size from `xl` to `2xl`, and replaced `grid grid-cols-1 md:grid-cols-3 gap-6 items-start` with `space-y-6` for vertical stacking of Inclusions, Exclusions, and Things to Carry fields.
+  - [project/app/admin/packages/page.jsx](file:///C:/Users/JitenderSingh/Downloads/travel-portal-ui/project/app/admin/packages/page.jsx): Changed Modal size from `xl` to `2xl`, and replaced `grid grid-cols-1 md:grid-cols-3 gap-6 items-start` with `space-y-6` for vertical stacking of Inclusions, Exclusions, and Things to Carry fields.
+- **Status / UX Improvement**: Each section now displays vertically with clear visual separation, preventing item overlap and providing better space utilization for forms with many entries. Build verification completed successfully with zero errors.

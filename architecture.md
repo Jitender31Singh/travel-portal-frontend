@@ -53,6 +53,10 @@ travel-portal-ui/
 - **Supabase Client (`project/lib/supabase.js`)**: Manages anonymous and authenticated interactions with Supabase services using `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
 - **Query Abstractions (`project/lib/queries.js`)**: Encapsulates CRUD operations, data fetching for destinations, trek details, user reviews, and enquiry submissions, keeping UI components clean of raw SQL or API query boilerplate.
 
+### 3.4 Domain Data & Entity Structures (Itineraries & Policies)
+- **Itinerary Modeling**: Itineraries support polymorphic attachment to both Packages (`referenceType: 0`) and Treks (`referenceType: 1`). Every individual itinerary record (such as a specific trip day or sequence) encapsulates a **structured list of subsidiary items** (`activities: List<String>`) in addition to operational metrics (`travelMode`, `distanceCovered`, `altitude`, `stay`, `meals`).
+- **Policy Modeling**: Adhering to the same structured hierarchy as itineraries, travel policies (e.g., Cancellation Policies, Payment Terms, Operational Guidelines) must be designed and handled as containing a **list of bullet points / rules** (`List<String>` or structured arrays of points) rather than raw monolithic text blobs. Frontend displays and admin interfaces must preserve this list-based formatting.
+
 ---
 
 ## 4. Development Guidelines & Conventions

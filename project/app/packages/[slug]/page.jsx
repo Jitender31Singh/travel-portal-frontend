@@ -27,6 +27,48 @@ function FaqItem({ question, answer }) {
   );
 }
 
+function ItineraryItem({ day, isLast, defaultOpen = false }) {
+  const [open, setOpen] = useState(defaultOpen);
+  return (
+    <div className="flex gap-4 group cursor-pointer" onClick={() => setOpen(!open)}>
+      <div className="flex flex-col items-center">
+        <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 shadow-md transition-colors duration-300 ${open ? 'bg-[#0d9488] text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-[#0d9488]/20 group-hover:text-[#0d9488]'}`}>
+          D{day.dayNumber}
+        </div>
+        {!isLast && <div className={`w-0.5 flex-1 mt-2 transition-colors duration-300 ${open ? 'bg-[#0d9488]/30' : 'bg-slate-200 group-hover:bg-[#0d9488]/20'}`} />}
+      </div>
+      <div className={`pb-6 flex-1 bg-white p-5 rounded-2xl border transition-all duration-300 ${open ? 'border-[#0d9488]/30 shadow-md shadow-[#0d9488]/5' : 'border-slate-100 shadow-sm group-hover:border-[#0d9488]/20'}`}>
+        <div className="flex justify-between items-center mb-1">
+          <h4 className={`font-semibold text-base transition-colors duration-300 ${open ? 'text-[#0d9488]' : 'text-[#0f2744]'}`}>{day.title}</h4>
+          <ChevronDown size={18} className={`text-slate-400 transition-transform duration-300 ${open ? 'rotate-180 text-[#0d9488]' : ''}`} />
+        </div>
+        
+        {open && (
+          <div className="mt-4 animate-fade-up" onClick={(e) => e.stopPropagation()}>
+            {day.description && <div className="text-sm text-slate-600 leading-relaxed mb-3 prose max-w-none" dangerouslySetInnerHTML={{ __html: day.description }} />}
+            <div className="flex flex-wrap gap-2 text-xs font-medium mt-2">
+              {day.meals && <span className="bg-amber-50 text-amber-800 px-2.5 py-1 rounded-full flex items-center gap-1">🍴 {day.meals}</span>}
+              {(day.travelMode || day.travel_mode) && <span className="bg-blue-50 text-blue-800 px-2.5 py-1 rounded-full flex items-center gap-1">🚗 {day.travelMode || day.travel_mode}</span>}
+              {day.stay && <span className="bg-slate-100 text-slate-700 px-2.5 py-1 rounded-full flex items-center gap-1">🏨 {day.stay}</span>}
+              {(day.distanceCovered || day.distance_covered) && <span className="bg-teal-50 text-teal-800 px-2.5 py-1 rounded-full flex items-center gap-1">🗺️ {day.distanceCovered || day.distance_covered}</span>}
+              {(day.altitude || day.max_altitude) && <span className="bg-purple-50 text-purple-800 px-2.5 py-1 rounded-full flex items-center gap-1">⛰️ {day.altitude || day.max_altitude}</span>}
+            </div>
+            {day.activities?.length > 0 && (
+              <ul className="mt-4 space-y-2 pt-3 border-t border-slate-50">
+                {day.activities.map((a, i) => (
+                  <li key={i} className="text-xs text-slate-600 flex items-center gap-2 font-medium">
+                    <span className="w-1.5 h-1.5 bg-[#0d9488] rounded-full flex-shrink-0" /> {a}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function PackageDetailPage() {
   const { slug } = useParams();
   const { openModal } = useEnquiry();
@@ -220,35 +262,13 @@ export default function PackageDetailPage() {
                 {itinerary
                   .slice()
                   .sort((a, b) => (a.dayNumber || 0) - (b.dayNumber || 0))
-                  .map(day => (
-                    <div key={day.id || day.dayNumber} className="flex gap-4">
-                      <div className="flex flex-col items-center">
-                        <div className="w-10 h-10 bg-[#0d9488] text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 shadow-md">
-                          D{day.dayNumber}
-                        </div>
-                        <div className="w-0.5 bg-slate-200 flex-1 mt-2" />
-                      </div>
-                      <div className="pb-6 flex-1 bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
-                        <h4 className="font-semibold text-[#0f2744] text-base mb-2">{day.title}</h4>
-                        {day.description && <div className="text-sm text-slate-600 leading-relaxed mb-3 prose max-w-none" dangerouslySetInnerHTML={{ __html: day.description }} />}
-                        <div className="flex flex-wrap gap-2 text-xs font-medium mt-2">
-                          {day.meals && <span className="bg-amber-50 text-amber-800 px-2.5 py-1 rounded-full flex items-center gap-1">🍴 {day.meals}</span>}
-                          {(day.travelMode || day.travel_mode) && <span className="bg-blue-50 text-blue-800 px-2.5 py-1 rounded-full flex items-center gap-1">🚗 {day.travelMode || day.travel_mode}</span>}
-                          {day.stay && <span className="bg-slate-100 text-slate-700 px-2.5 py-1 rounded-full flex items-center gap-1">🏨 {day.stay}</span>}
-                          {(day.distanceCovered || day.distance_covered) && <span className="bg-teal-50 text-teal-800 px-2.5 py-1 rounded-full flex items-center gap-1">🗺️ {day.distanceCovered || day.distance_covered}</span>}
-                          {(day.altitude || day.max_altitude) && <span className="bg-purple-50 text-purple-800 px-2.5 py-1 rounded-full flex items-center gap-1">⛰️ {day.altitude || day.max_altitude}</span>}
-                        </div>
-                        {day.activities?.length > 0 && (
-                          <ul className="mt-3 space-y-1.5 pt-3 border-t border-slate-50">
-                            {day.activities.map((a, i) => (
-                              <li key={i} className="text-xs text-slate-600 flex items-center gap-1.5 font-medium">
-                                <span className="w-1.5 h-1.5 bg-[#0d9488] rounded-full flex-shrink-0" /> {a}
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      </div>
-                    </div>
+                  .map((day, idx, arr) => (
+                    <ItineraryItem 
+                      key={day.id || day.dayNumber} 
+                      day={day} 
+                      isLast={idx === arr.length - 1} 
+                      defaultOpen={idx === 0} 
+                    />
                   ))}
               </div>
             </div>
