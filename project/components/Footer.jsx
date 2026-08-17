@@ -8,7 +8,12 @@ export default function Footer() {
   const [destinations, setDestinations] = useState([]);
 
   useEffect(() => {
-    getDestinations().then(setDestinations);
+    getDestinations()
+      .then(data => {
+        console.log('[Footer] destinations:', data);
+        if (Array.isArray(data)) setDestinations(data);
+      })
+      .catch(err => console.error('[Footer] Failed to load destinations:', err));
   }, []);
 
   return (

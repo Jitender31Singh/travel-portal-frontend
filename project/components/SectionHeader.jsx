@@ -6,7 +6,7 @@ export default function SectionHeader({ title, subtitle, viewAllHref, viewAllLab
       <div>
         <h2 className="text-2xl md:text-3xl font-bold text-[#0f2744]"
           style={{ fontFamily: "'Playfair Display', serif" }}>{title}</h2>
-        {subtitle && <p className="text-slate-500 text-sm mt-1">{subtitle}</p>}
+        {subtitle && <p className="text-slate-500 text-sm md:text-base mt-1">{subtitle}</p>}
       </div>
       {viewAllHref && (
         <Link href={viewAllHref}

@@ -66,37 +66,37 @@ export default function EnquiryModal() {
                 <label className="block text-xs font-semibold text-slate-600 mb-1.5">Full Name *</label>
                 <input name="name" value={form.name} onChange={handleChange} required
                   placeholder="Your name"
-                  className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0d9488] focus:border-transparent" />
+                  className="w-full border border-slate-200 rounded-lg px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#0d9488] focus:border-transparent" />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-slate-600 mb-1.5">Phone *</label>
                 <input name="phone" value={form.phone} onChange={handleChange} required
                   placeholder="+91 XXXXX XXXXX"
-                  className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0d9488] focus:border-transparent" />
+                  className="w-full border border-slate-200 rounded-lg px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#0d9488] focus:border-transparent" />
               </div>
             </div>
             <div>
               <label className="block text-xs font-semibold text-slate-600 mb-1.5">Email *</label>
               <input name="email" type="email" value={form.email} onChange={handleChange} required
                 placeholder="your@email.com"
-                className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0d9488] focus:border-transparent" />
+                className="w-full border border-slate-200 rounded-lg px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#0d9488] focus:border-transparent" />
             </div>
             <div>
               <label className="block text-xs font-semibold text-slate-600 mb-1.5">Interested In</label>
               <input name="subject" value={form.subject || prefill} onChange={handleChange}
                 placeholder="Package / Trek name (optional)"
-                className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0d9488] focus:border-transparent" />
+                className="w-full border border-slate-200 rounded-lg px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#0d9488] focus:border-transparent" />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-semibold text-slate-600 mb-1.5">Travel Date</label>
                 <input name="travelDate" type="date" value={form.travelDate} onChange={handleChange}
-                  className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0d9488] focus:border-transparent" />
+                  className="w-full border border-slate-200 rounded-lg px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#0d9488] focus:border-transparent" />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-slate-600 mb-1.5">Travelers</label>
                 <select name="travelers" value={form.travelers} onChange={handleChange}
-                  className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0d9488] focus:border-transparent">
+                  className="w-full border border-slate-200 rounded-lg px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#0d9488] focus:border-transparent">
                   <option value="">Select</option>
                   {['1', '2', '3-5', '6-10', '10+'].map(v => <option key={v} value={v}>{v}</option>)}
                 </select>
@@ -106,7 +106,7 @@ export default function EnquiryModal() {
               <label className="block text-xs font-semibold text-slate-600 mb-1.5">Message</label>
               <textarea name="message" value={form.message} onChange={handleChange} rows={3}
                 placeholder="Tell us about your dream trip…"
-                className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0d9488] focus:border-transparent resize-none" />
+                className="w-full border border-slate-200 rounded-lg px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#0d9488] focus:border-transparent resize-none" />
             </div>
             {error && <p className="text-red-600 text-xs">{error}</p>}
             <button type="submit" disabled={loading}

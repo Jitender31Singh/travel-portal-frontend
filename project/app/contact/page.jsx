@@ -37,9 +37,9 @@ export default function ContactPage() {
   }
 
   const contactInfo = [
-    { icon: Phone, label: 'Phone', value: '+91 1234567890', sub: 'Mon–Sat: 9AM–7PM' },
-    { icon: Mail, label: 'Email', value: 'info@goonnextrip.com', sub: 'We reply within 24 hours' },
-    { icon: MapPin, label: 'Address', value: '123, Travel Street', sub: 'Dehradun, Uttarakhand 248001' },
+    { icon: Phone, label: 'Phone', value: `${process.env.NEXT_PUBLIC_CONTACT_PHONE}`, sub: 'Mon–Sat: 9AM–7PM' },
+    { icon: Mail, label: 'Email', value: `${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`, sub: 'We reply within 24 hours' },
+    { icon: MapPin, label: 'Address', value: `${process.env.NEXT_PUBLIC_CONTACT_ADDRESS}`, sub: 'Dehradun, Uttarakhand 248001' },
     { icon: Clock, label: 'Office Hours', value: 'Mon–Sat: 9AM–7PM', sub: 'Sunday: 10AM–4PM' },
   ];
 

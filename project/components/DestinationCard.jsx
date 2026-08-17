@@ -4,7 +4,7 @@ import Link from 'next/link';
 export default function DestinationCard({ destination }) {
   return (
     <Link href={`/destinations/${destination.slug}`}
-      className="relative h-56 rounded-2xl overflow-hidden group block">
+      className="relative h-44 sm:h-56 rounded-2xl overflow-hidden group block">
       <img
         src={destination.heroImage || 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80'}
         alt={destination.name}

@@ -42,16 +42,16 @@ export default async function HomePage() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#0f2744]/70 via-[#0f2744]/40 to-[#0f2744]/80" />
         </div>
-        <div className="relative z-10 text-center text-white px-5 max-w-3xl mx-auto pt-20">
+        <div className="relative z-10 text-center text-white px-5 max-w-4xl mx-auto pt-16 md:pt-20">
           <span className="inline-block bg-[#d97706]/20 border border-[#d97706]/40 text-[#f59e0b] text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6">
             Explore India
           </span>
-          <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6"
+          <h1 className="text-4xl md:text-7xl font-bold leading-tight mb-6"
             style={{ fontFamily: "'Playfair Display', serif" }}>
             Choose Your<br />
             <em className="text-[#f59e0b] not-italic">Next Destination</em>
           </h1>
-          <p className="text-white/80 text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-white/80 text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
             Explore the most beautiful places in India with GoonnexTrip. Expert guides, best prices, unforgettable memories.
           </p>
           <HeroButtons />
@@ -72,7 +72,7 @@ export default async function HomePage() {
       </div>
 
       {/* ── Destinations ────────────────────────────────── */}
-      <section className="py-20 px-5">
+      <section className="py-12 md:py-20 px-5">
         <div className="max-w-7xl mx-auto">
           <SectionHeader title="Popular Destinations" subtitle="Discover handpicked destinations across India" />
           {destinations?.length > 0 ? (
@@ -86,7 +86,7 @@ export default async function HomePage() {
       </section>
 
       {/* ── Packages ────────────────────────────────────── */}
-      <section className="py-20 px-5 bg-slate-50">
+      <section className="py-12 md:py-20 px-5 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <SectionHeader title="Tour Packages" subtitle="Curated packages for every type of traveler" viewAllHref="/packages" />
           {packages?.length > 0 ? (
@@ -100,7 +100,7 @@ export default async function HomePage() {
       </section>
 
       {/* ── Treks ───────────────────────────────────────── */}
-      <section className="py-20 px-5">
+      <section className="py-12 md:py-20 px-5">
         <div className="max-w-7xl mx-auto">
           <SectionHeader title="Treks By GoonnexTrip" subtitle="Adventure, nature, and unforgettable trails" viewAllHref="/treks" />
           {treks?.length > 0 ? (
@@ -114,7 +114,7 @@ export default async function HomePage() {
       </section>
 
       {/* ── Why GoonnexTrip ──────────────────────────────── */}
-      <section className="py-20 px-5 bg-slate-50">
+      <section className="py-12 md:py-20 px-5 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
@@ -126,7 +126,7 @@ export default async function HomePage() {
               <p className="text-slate-500 leading-relaxed mb-10">
                 We create unforgettable journeys with expert planning, authentic local experiences, and safe adventures that leave you with memories for a lifetime.
               </p>
-              <div className="grid grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 {[
                   [Compass, 'Expert Guides', 'Experienced local experts on every route'],
                   [Shield, 'Safe Travel', 'Secure and trusted trips since day one'],
@@ -166,7 +166,7 @@ export default async function HomePage() {
       </section>
 
       {/* ── Reviews ─────────────────────────────────────── */}
-      <section className="py-20 px-5">
+      <section className="py-12 md:py-20 px-5">
         <div className="max-w-7xl mx-auto">
           <SectionHeader title="What Travelers Say" subtitle="Experiences shared by our happy adventurers" />
           {reviews?.length > 0 ? (
@@ -178,7 +178,7 @@ export default async function HomePage() {
       </section>
 
       {/* ── CTA Banner ──────────────────────────────────── */}
-      <section className="bg-gradient-to-r from-[#0f2744] to-[#1a3a5c] py-20 px-5 text-center">
+      <section className="bg-gradient-to-r from-[#0f2744] to-[#1a3a5c] py-12 md:py-20 px-5 text-center">
         <h2 className="text-3xl md:text-4xl font-bold text-white mb-4"
           style={{ fontFamily: "'Playfair Display', serif" }}>
           Ready to Explore India?

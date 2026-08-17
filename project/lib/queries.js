@@ -15,9 +15,12 @@ async function fetchGet(endpoint) {
     });
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status} on ${endpoint}`);
     const json = await res.json();
-    // Assuming backend wraps response in ApiResponse<T> DTO with success, message, data
-    // If not wrapped, fallback to json directly
+    // Handle ApiResponse<T> wrapper with success+data fields
     if (json && json.success !== undefined && json.data !== undefined) {
+      return json.data;
+    }
+    // Handle wrapper with just .data (no success field) e.g. { data: [...], Count: N }
+    if (json && json.data !== undefined && !Array.isArray(json) && typeof json === 'object') {
       return json.data;
     }
     return json;

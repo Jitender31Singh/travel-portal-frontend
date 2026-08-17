@@ -45,7 +45,7 @@ function ItineraryItem({ day, isLast, defaultOpen = false }) {
         
         {open && (
           <div className="mt-4 animate-fade-up" onClick={(e) => e.stopPropagation()}>
-            {day.description && <div className="text-sm text-slate-600 leading-relaxed mb-3 prose max-w-none" dangerouslySetInnerHTML={{ __html: day.description }} />}
+            {day.description && <div className="text-sm text-slate-600 leading-relaxed mb-3 prose prose-headings:mt-3 prose-headings:mb-1 prose-h3:mt-1 prose-p:mt-1 prose-p:mb-1 max-w-none" dangerouslySetInnerHTML={{ __html: day.description }} />}
             <div className="flex flex-wrap gap-2 text-xs font-medium mt-2">
               {day.meals && <span className="bg-amber-50 text-amber-800 px-2.5 py-1 rounded-full flex items-center gap-1">🍴 {day.meals}</span>}
               {(day.travelMode || day.travel_mode) && <span className="bg-blue-50 text-blue-800 px-2.5 py-1 rounded-full flex items-center gap-1">🚗 {day.travelMode || day.travel_mode}</span>}
@@ -147,11 +147,21 @@ export default function PackageDetailPage() {
   return (
     <div>
       {/* Banner */}
-      <div className="relative h-[60vh] min-h-[420px] overflow-hidden">
-        <img src={pkg.cover_image || 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80'}
-          alt={pkg.title} className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0f2744]/60 to-[#0f2744]/85" />
-        <div className="absolute inset-0 flex flex-col justify-end pb-12 px-5 md:px-12">
+      <div className="relative w-full bg-[#0f2744]" style={{ minHeight: '420px', maxHeight: '100vh' }}>
+        <img
+          src={pkg.coverImage || 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80'}
+          alt={pkg.title}
+          style={{
+            display: 'block',
+            width: '100%',
+            maxHeight: '100vh',
+            minHeight: '420px',
+            objectFit: 'contain',
+            objectPosition: 'center',
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0f2744]/50 via-transparent to-[#0f2744]/90" />
+        <div className="absolute inset-0 flex flex-col justify-end pb-8 md:pb-12 px-4 md:px-12">
           <nav className="flex items-center gap-2 text-white/60 text-xs mb-4">
             <Link href="/" className="hover:text-white">Home</Link><span>/</span>
             <Link href="/packages" className="hover:text-white">Packages</Link><span>/</span>
@@ -169,7 +179,7 @@ export default function PackageDetailPage() {
       </div>
 
       {/* Main layout */}
-      <div className="max-w-7xl mx-auto px-5 py-12 grid lg:grid-cols-3 gap-10">
+      <div className="max-w-7xl mx-auto px-4 py-8 md:px-5 md:py-12 grid lg:grid-cols-3 gap-10">
         {/* Left: content */}
         <div className="lg:col-span-2 space-y-12">
           {/* Gallery Carousel */}
@@ -179,7 +189,7 @@ export default function PackageDetailPage() {
           <div>
             <h2 className="text-2xl font-bold text-[#0f2744] mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Overview</h2>
             <Expandable maxHeight={250}>
-              <div className="text-slate-600 leading-relaxed prose max-w-none" dangerouslySetInnerHTML={{ __html: pkg.overview }} />
+              <div className="text-slate-600 leading-relaxed prose prose-headings:mt-4 prose-headings:mb-2 prose-h3:mt-2 prose-p:mt-2 prose-p:mb-2 max-w-none" dangerouslySetInnerHTML={{ __html: pkg.overview }} />
             </Expandable>
             <div className="grid sm:grid-cols-2 gap-4 mt-6">
               {[
@@ -310,7 +320,7 @@ export default function PackageDetailPage() {
         </div>
 
         {/* Right: sticky card */}
-        <div className="lg:col-span-1">
+        <div className="lg:col-span-1 mt-8 lg:mt-0 pt-8 lg:pt-0 border-t border-slate-200 lg:border-t-0">
           <div className="sticky top-24 space-y-5">
             {/* Price & Book */}
             <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-6">

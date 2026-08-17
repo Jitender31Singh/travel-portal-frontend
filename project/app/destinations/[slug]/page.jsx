@@ -9,6 +9,7 @@ import ReviewCarousel from '@/components/ReviewCarousel';
 import SectionHeader from '@/components/SectionHeader';
 import StarRating from '@/components/StarRating';
 import ImageCarousel from '@/components/ImageCarousel';
+import Expandable from '@/components/Expandable';
 import { useEnquiry } from '@/components/EnquiryContext';
 import {
   getDestinationBySlug, getPackagesByDestination, getFaqs, getReviews, getGallery, REF_TYPE
@@ -81,7 +82,7 @@ export default function DestinationPage() {
   return (
     <div>
       {/* Banner */}
-      <div className="relative h-[60vh] min-h-[420px] overflow-hidden">
+      <div className="relative h-[60vh] min-h-[320px] md:min-h-[420px] overflow-hidden">
         {dest ? (
           <img src={dest.heroImage || 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80'}
             alt={dest.name} className="w-full h-full object-cover" />
@@ -97,7 +98,7 @@ export default function DestinationPage() {
             <span>/</span>
             <span className="text-white">{dest?.name || '...'}</span>
           </nav>
-          <h1 className="text-4xl md:text-6xl font-bold text-white"
+          <h1 className="text-3xl md:text-6xl font-bold text-white"
             style={{ fontFamily: "'Playfair Display', serif" }}>{dest?.name}</h1>
           {dest?.state && (
             <p className="text-white/70 mt-2 text-lg">{dest.state} • Adventure • Nature</p>
@@ -107,7 +108,7 @@ export default function DestinationPage() {
 
       {/* Trust badges */}
       <div className="bg-[#0f2744] py-5 px-5">
-        <div className="max-w-5xl mx-auto flex flex-wrap justify-center gap-8 text-center">
+        <div className="max-w-5xl mx-auto flex flex-wrap justify-center gap-4 sm:gap-8 text-center">
           {[['🏷️', 'Best Price', 'Guarantee'], ['🛡️', 'Safe', 'Travel'], ['🧭', 'Expert', 'Guides'], ['🕐', '24/7', 'Support']].map(([icon, title, sub]) => (
             <div key={title} className="flex items-center gap-2 text-white">
               <span className="text-2xl">{icon}</span>
@@ -121,7 +122,7 @@ export default function DestinationPage() {
       </div>
 
       {/* About section */}
-      <section className="py-16 px-5">
+      <section className="py-10 md:py-16 px-4 md:px-5">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-3 gap-10">
           <div className="lg:col-span-2">
             <ImageCarousel images={gallery} />
@@ -134,10 +135,12 @@ export default function DestinationPage() {
                 {[...Array(4)].map((_, i) => <div key={i} className="skeleton h-4 rounded" />)}
               </div>
             ) : (
-              <div className="text-slate-600 leading-relaxed prose max-w-none" dangerouslySetInnerHTML={{ __html: dest?.description || '' }} />
+              <Expandable maxHeight={250}>
+                <div className="text-slate-600 leading-relaxed prose prose-headings:mt-4 prose-headings:mb-2 prose-h3:mt-2 prose-p:mt-2 prose-p:mb-2 max-w-none" dangerouslySetInnerHTML={{ __html: dest?.description || '' }} />
+              </Expandable>
             )}
           </div>
-          <div className="bg-white rounded-2xl shadow-md border border-slate-100 p-6">
+          <div className="bg-white rounded-2xl shadow-md border border-slate-100 p-6 mt-6 lg:mt-0">
             <h4 className="font-semibold text-[#0f2744] mb-4">Destination Highlights</h4>
             <div className="space-y-3 text-sm">
               {dest?.bestTime && (
@@ -168,7 +171,7 @@ export default function DestinationPage() {
       </section>
 
       {/* Packages */}
-      <section className="py-16 px-5 bg-slate-50">
+      <section className="py-10 md:py-16 px-4 md:px-5 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <SectionHeader
             title={`${dest?.name || ''} Tour Packages`}
@@ -190,7 +193,7 @@ export default function DestinationPage() {
 
       {/* FAQs */}
       {faqs.length > 0 && (
-        <section className="py-16 px-5">
+        <section className="py-10 md:py-16 px-4 md:px-5">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl font-bold text-[#0f2744] mb-8"
               style={{ fontFamily: "'Playfair Display', serif" }}>Frequently Asked Questions</h2>
@@ -203,7 +206,7 @@ export default function DestinationPage() {
 
       {/* Reviews */}
       {reviews.length > 0 && (
-        <section className="py-16 px-5 bg-slate-50">
+        <section className="py-10 md:py-16 px-4 md:px-5 bg-slate-50">
           <div className="max-w-7xl mx-auto">
             <SectionHeader title="Customer Reviews" subtitle={`What travelers say about ${dest?.name}`} />
             <ReviewCarousel reviews={reviews} />
@@ -212,7 +215,7 @@ export default function DestinationPage() {
       )}
 
       {/* CTA */}
-      <section className="bg-gradient-to-r from-[#0f2744] to-[#0d9488] py-16 px-5 text-center">
+      <section className="bg-gradient-to-r from-[#0f2744] to-[#0d9488] py-10 md:py-16 px-4 md:px-5 text-center">
         <h2 className="text-2xl md:text-3xl font-bold text-white mb-3"
           style={{ fontFamily: "'Playfair Display', serif" }}>
           Ready to Explore {dest?.name}?
